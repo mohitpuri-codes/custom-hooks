@@ -12,6 +12,7 @@ import useClipboard from "./hooks/useClipboard";
 import useLongPress from "./hooks/useLongPress";
 import useEffectFirstSkip from "./hooks/useEffectFirstSkip";
 import useLongPressToAccelarate from "./hooks/useLongPressToAccelarate";
+import useSkipEffect from "./hooks/useSkipEffect";
 
 function App() {
   const { onmousedown: acclearateDown, onmouseup: acclearateUp } =
@@ -43,6 +44,14 @@ function App() {
   useEffectFirstSkip(() => {
     // console.log("hi");
   }, []);
+
+  useSkipEffect(
+    (stop) => {
+      console.log("inside skip effect");
+      if (state.length === 5) stop();
+    },
+    [pvsValue]
+  );
   return (
     <section>
       <div>
