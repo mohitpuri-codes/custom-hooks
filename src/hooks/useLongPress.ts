@@ -1,9 +1,9 @@
 import { useRef } from "react";
 
 function useLongPress(fn: () => void) {
-  const id = useRef<NodeJS.Timeout | null>(null);
+  const id = useRef<number | null>(null);
   function handleMouseDown() {
-    id.current = setTimeout(() => {
+    id.current = window.setTimeout(() => {
       fn();
     }, 5000);
   }
