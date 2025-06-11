@@ -9,7 +9,6 @@ function useSkipEffect(fn: (stop: () => void) => void, arr: Array<any>) {
     controller.abort();
   }, [controller]);
   useEffect(() => {
-    console.log("running skipEffect hook");
     if (!signal.aborted) {
       fn(stop);
     }

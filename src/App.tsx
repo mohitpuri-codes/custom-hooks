@@ -47,7 +47,7 @@ function App() {
 
   useSkipEffect(
     (stop) => {
-      console.log("inside skip effect");
+      console.log("function execution");
       if (state.length === 5) stop();
     },
     [pvsValue]
