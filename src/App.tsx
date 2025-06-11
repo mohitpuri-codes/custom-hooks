@@ -9,8 +9,19 @@ import usePreviousValue from "./hooks/usePreviousValue";
 import useResetState from "./hooks/useResetState";
 // import useUndoRedo from "./hooks/useUndoRedo";
 import useClipboard from "./hooks/useClipboard";
+import useLongPress from "./hooks/useLongPress";
+import useEffectFirstSkip from "./hooks/useEffectFirstSkip";
+import useLongPressToAccelarate from "./hooks/useLongPressToAccelarate";
 
 function App() {
+  const { onmousedown: acclearateDown, onmouseup: acclearateUp } =
+    useLongPressToAccelarate(
+      () => console.log("long press to acclearate"),
+      2000
+    );
+  const { onmousedown, onmouseup } = useLongPress(() =>
+    alert("long press event")
+  );
   const { copy } = useClipboard();
   const { toggle, value } = useToggleValue(true);
   const {
@@ -29,6 +40,9 @@ function App() {
   const { pvsValue, setState, state } = usePreviousValue<Array<number>>([1, 2]);
   const isIdle = useIdle(5000);
   const ref = useFullscreen<HTMLButtonElement>();
+  useEffectFirstSkip(() => {
+    // console.log("hi");
+  }, []);
   return (
     <section>
       <div>
@@ -71,6 +85,7 @@ function App() {
       {/* pvs value */}
 
       <div>
+        <h2>usePrevious hook</h2>
         Current Value = {state.length}
         <p>
           Previos Value = {pvsValue.current.length ?? pvsValue.current.length}
@@ -88,15 +103,29 @@ function App() {
       </div>
 
       {/* useIdle */}
-      <p>
+      <div>
         {" "}
-        Stay AFK from mouse and keyboard to show idle/active:{" "}
-        <p>{isIdle ? "idle" : "active"}</p>
-      </p>
+        <h2> useIdle hook</h2> Stay AFK from mouse and keyboard to show
+        idle/active: <span>{isIdle ? "idle" : "active"}</span>
+      </div>
 
       <div>
+        <h2>useClipboard hook</h2>
         <button onClick={() => copy("copy")}>Copy</button>
         <input type="text" placeholder="paste here" />
+      </div>
+
+      <div>
+        <h2>Long press hook</h2>
+        <button onMouseDown={onmousedown} onMouseUp={onmouseup}>
+          long press
+        </button>
+      </div>
+      <div>
+        <h2>Long press to acclearate hook</h2>
+        <button onMouseDown={acclearateDown} onMouseUp={acclearateUp}>
+          long press
+        </button>
       </div>
     </section>
   );
